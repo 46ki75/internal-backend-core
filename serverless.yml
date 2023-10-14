@@ -7,6 +7,20 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ap-northeast-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: ${ssm:/dynamodb/internal/arn}
+  environment:
+    JWT_SECRET_KEY: ${ssm:/dynamodb/internal/JWT_SECRET_KEY}
+    TABLE_NAME: ${ssm:/dynamodb/internal/TABLE_NAME}
 
 functions:
   api:
