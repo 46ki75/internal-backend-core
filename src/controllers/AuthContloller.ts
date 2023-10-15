@@ -58,6 +58,15 @@ class AuthController {
    *               properties:
    *                 token:
    *                   type: string
+   *       400:
+   *         description: Bad Request (empty name field or password field)
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
    *       401:
    *         description: Invalid password
    *         content:
@@ -69,11 +78,15 @@ class AuthController {
    *                   type: string
    */
   private async login(req: Request, res: Response): Promise<void> {
-    try {
-      const token = await AuthService.login(req.body.name, req.body.password)
-      res.status(200).json({ token })
-    } catch (error) {
-      res.status(401).json({ message: 'Invalid Password' })
+    if (req.body.name && req.body.password) {
+      try {
+        const token = await AuthService.login(req.body.name, req.body.password)
+        res.status(200).json({ token })
+      } catch (error) {
+        res.status(401).json({ message: 'Invalid Password' })
+      }
+    } else {
+      res.status(400).json({ message: 'Name and password are required' })
     }
   }
 }
