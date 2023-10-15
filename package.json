@@ -7,7 +7,7 @@
     "node": "^18.0.0"
   },
   "scripts": {
-    "test": "vitest",
+    "test": "vitest --ui",
     "build": "tsc",
     "prestart": "tsc",
     "start": "node dist/server.js",
@@ -16,6 +16,8 @@
     "format": "prettier --write .",
     "predeploy": "npm run build",
     "deploy": "serverless deploy",
+    "preoffline": "npm run build",
+    "offline": "sls offline",
     "prepare": "husky install"
   },
   "prettier": "prettier-config-standard",
